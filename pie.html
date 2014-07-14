@@ -1,0 +1,67 @@
+<html>
+  <head>
+  <meta charset="utf-8">
+   <link type="text/css" rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css"/>
+   <script type="text/javascript" src="./static/js/d3.min.js"></script>
+   <script type="text/javascript" src="./static/js/Donut3D.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="margin-left:300px;">系统概况统计</h1>
+  <script type='text/javascript'>
+  var attackData=[
+    {label:"XSS", color:"#3366CC"},
+    {label:"SQL注入", color:"#DC3912"},
+    {label:"PHP 代码注入", color:"#FF9900"},
+    {label:"SSI 注入", color:"#109618"},
+    {label:"DoS 拒绝服务", color:"#990099"},
+    {label:"文件注入", color:"#900000"}
+  ];
+  var scanData=[
+    {label:"WVS", color:"#3366CC"},
+    {label:"IBM Appscan", color:"#DC3912"},
+    {label:"Nikto", color:"#FF9900"},
+    {label:"Nmap", color:"#109618"},
+    {label:"Arachni", color:"#990099"}
+  ];
+  var statusData=[
+    {label:"403", color:"#3366CC"},
+    {label:"503", color:"#DC3912"},
+    {label:"404", color:"#FF9900"},
+    {label:"206", color:"#109618"},
+    {label:"502", color:"#990099"}
+  ];
+
+  var svg = d3.select("body").append("svg").attr("width",940).attr("height",300);
+
+  svg.append("g").attr("id","attackDonut");
+  svg.append("g").attr("id","scanDonut");
+  svg.append("g").attr("id","statusDonut");
+
+  Donut3D.draw("attackDonut", randomAttack(), 150, 150, 130, 100, 30, 0.4);
+  Donut3D.draw("scanDonut", randomScan(), 450, 150, 130, 100, 30, 0);
+  Donut3D.draw("statusDonut", randomStatus(), 750, 150, 130, 100, 30, 0);
+    
+  function changeData(){
+    Donut3D.transition("attackDonut", randomAttack(), 130, 100, 30, 0.4);
+    Donut3D.transition("scanDonut", randomScan(), 130, 100, 30, 0);
+    Donut3D.transition("statusDonut", randomStatus(), 130, 100, 30, 0);
+  }
+
+  function randomAttack(){
+    return attackData.map(function(d){ 
+      return {label:d.label, value:1000*Math.random(), color:d.color};});
+  }
+  function randomScan(){
+    return scanData.map(function(d){ 
+      return {label:d.label, value:1000*Math.random(), color:d.color};});
+  }
+  function randomStatus(){
+    return statusData.map(function(d){ 
+      return {label:d.label, value:1000*Math.random(), color:d.color};});
+  }
+  setInterval("changeData()",1000)
+  </script>
+    </div>
+  </body>
+</html>
